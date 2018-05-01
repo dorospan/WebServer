@@ -1,0 +1,89 @@
+HTTP协议：超文本传输协议
+FTP协议：文件传输协议
+	（1）互联网中广泛应用的应用层协议，是客户端（浏览器）与服务端之间规定数据格式的协议
+	（2）HTTP协议要求客户端与服务端之间通讯形式为：一问一答
+		HTTP请求 客户端-->服务端
+		服务端经过处理后给客户端一个HTTP响应
+		服务端永远不会主动给客户端发送数据
+	（3）目前基本使用HTTP1.1版本
+	（4）HTTP1.0时，客户端与服务端通讯形式为：一次会话中只完成一次请求一次响应
+			即：客户端通过TCP协议与服务端建立连接后，会使用HTTP协议向服务端发送请求；
+			   服务端处理后给客户端进行响应
+			   响应完毕后即与客户端断开连接
+		HTTP1.1时，通讯形式：在一次会话中完成多次请求与响应
+			即：建立TCP连接后，客户端发送一次请求后服务端处理完毕进行响应
+			   客户端可再次发送请求服务端处理并响应
+			    如此重复多次，直到最后一次响应完毕才断开连接
+
+
+HTTP分别对请求与响应定义了格式
+HTTP请求 (request)
+	一个HTTP请求分为三部分：请求行、消息头、消息正文
+	（1）请求行
+		格式：method	url		protocol(CRLF)
+			请求方式	资源路径	协议版本
+		eg. GET /	HTTP /	1.1(CRLF)
+								CRLF代表两个符号： CR--回车符号，对应编码--13； 将光标移回本行开始位置
+											  LF--换行符号，对应编码--10 ；将光标移动到下一行当前位置
+											     两个符号拼一起用才算一行结束
+											     
+	（2）消息头：一个请求中可以包含若干个消息头消息，每个消息占用一行(CRLF)结尾，所有消息头全部完毕后，以单独CRLF结束
+		格式：headerName: headerValue(CRLF)
+			消息头名字：	消息头的值
+		eg. Connection: keep-alive(CRLF)
+			最后一个消息头后面会有两个CRLF, 第一个表示最后一个头消息结束，第二个表示整个消息头发送完毕
+			
+	（3）消息正文：没有具体格式，请求中可不包含它
+			因为是纯二进制数据，通常是用户的本次请求实际传递给服务端的数据；可能是注册时用户输入的数据，也可能是发送过来的图片信息等；
+			一个请求中可以不包含消息正文，服务端可根据消息头中是否含有描述信息正文的头信息，判断该请求是否含有正文
+			
+	完整的HTTP协议如：
+//	GET / HTTP/1.1(CRLF)
+	GET /myweb/index.html HTTP/1.1(CRLF)
+	Host: localhost:8080(CRLF)
+	Connection: keep-alive(CRLF)
+	Cache-Control: max-age=0(CRLF)
+	Upgrade-Insecure-Requests: 1(CRLF)
+	User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36(CRLF)
+	Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8(CRLF)
+	Accept-Encoding: gzip, deflate, br(CRLF)
+	Accept-Language: zh-CN,zh;q=0.8(CRLF)(CRLF) // CRLF已是换行从头读  
+
+
+HTTP响应
+	HTTP响应也分为三部分:状态行、响应头、响应正文
+
+	（1）状态行
+		状态行分为三部分:
+		protocol 	statusCode 	statusReason(CRLF)
+		协议版本 		状态代码 		状态描述
+
+
+		HTTP/1.1 	200 		OK
+		HTTP/1.1 200 OK
+		状态代码分为五类:
+		1xx:消息化	通常表示已收到客户端请求，要求继续发送
+		2xx:成功		表示请求已接收，并处理			200:客户请求成功接收并处理完毕
+		3xx:跳转		需要重新定位某个资源			302:要求客户端跳转(重定向)指定URL
+		4xx:客户端错误	客户端请求无法被处理			404:客户端的请求无效,无法处理.通常是请求资源没有找到
+		5xx:服务端错误	请求被接收，但是服务端处理失败	500:客户端请求被接收,但是服务端遇到未知错误,无法处理该请求
+		
+	（2）响应头
+		响应头格式与消息头一致
+			headerName:headerValue(CRLF)
+			所有头发送完毕后，会单独发送CRLF表示响应头部分结束
+		常见的头:
+			Content-Type:用于说明响应正文的数据类型
+			Content-Length:用于说明响应正文的数据长度(字节量)
+
+	（3）响应正文
+		二进制数据，是客户端实际请求的资源数据
+
+	完整的响应内容如:
+状态行	HTTP/1.1 200 OK(CRLF)
+响应头	Content-Type:text/html(CRLF)
+		Content-Length:32546(CRLF)(CRLF)
+响应正文	11010101010101.....
+
+
+

@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>register</title>
+	</head>
+	<body>
+		<center>
+			<h1>用户注册</h1>
+			<!-- 
+				form表单：
+					用于将用户输入的信息提交给服务端组件，所有被form表单包含的input输入框内容都会被提交
+					两个重要属性：
+						action: 指定数据提交的服务端地址
+								action常使用相对路径，即当前页面所在目录，此项目为webapps
+						method: 指定该form表单的提交形式
+						提交形式：
+							get: 地址栏形式提交，所有表单上的数据会被拼接到action指定路径，随地址栏形式一起提交给服务端
+							post: 表单内容会被设置在请求的消息正文部分提交给服务端
+							
+			 -->
+			<form action="reg" method="post"> 
+				<table>
+					<tr> <!-- 一个tr里为一行 -->
+						<td>用户名</td> <!-- 一个td内为一个格的内容 -->
+						<td><input type="text" size=36 name="username"></td>
+					</tr>
+					<tr>
+						<td>密码</td>
+						<td><input type="password" size=36 name="password"></td> <!-- password会将密码unvisible -->
+					<tr>
+						<td>年龄</td>
+						<td><input type="text" size=36 name="age"></td>
+					</tr>
+					<tr>
+						<td>手机号</td>
+						<td><input type="text" size=36 name="tel"></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="right">
+							<input type="reset" value="重置">
+							<input type="submit" value="注册"> <!-- submit rest等关键字是指定关联事件 -->
+						</td>
+					</tr>
+				</table>
+			</form>
+		</center>
+	</body>
+</html>

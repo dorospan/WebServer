@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servlets>
+	<servlet url="/myweb/reg" class="com.tedu.webserver.servlet.RegServlet" /> <!-- <内填的是参数>，<servlet>nnnn</servlet>之间填的是内容，没内容就只要前一半就好 -->
+	<servlet url="/myweb/login" class="com.tedu.webserver.servlet.LoginServlet" />
+	<servlet url="/myweb/showalluser" class="com.tedu.webserver.servlet.ShowAllUserServlet" />
+</servlets>
